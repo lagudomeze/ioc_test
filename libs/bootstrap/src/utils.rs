@@ -1,6 +1,4 @@
-use crate::{
-    quote, Bootstrap, CompileBootstrap, RuntimeBootstrap, SynPath, ToTokens, Visit,
-};
+use crate::{quote, Bootstrap, CompileBootstrap, RuntimeBootstrap, SynPath, ToTokens, Visit};
 
 pub struct NothingToDo;
 
@@ -21,9 +19,14 @@ impl RuntimeBootstrap for NothingToDo {
         Self
     }
 
-    fn append_crate(&mut self, _crate_name: SynPath) {}
+    fn append_crate(&mut self, _crate_name: &SynPath) {}
 
     fn into_token_stream(self) -> impl ToTokens {
         quote! {}
     }
+}
+
+impl Bootstrap for NothingToDo {
+    type CompileBootstrap = Self;
+    type RuntimeBootstrap = Self;
 }

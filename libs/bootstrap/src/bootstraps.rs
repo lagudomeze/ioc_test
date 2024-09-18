@@ -8,6 +8,7 @@ use crate::{
     SynPath,
     ToTokens,
     Visit,
+    NothingToDo
 };
 
 pub struct Bootstraps<T, U> {
@@ -15,16 +16,22 @@ pub struct Bootstraps<T, U> {
     rht: U,
 }
 
-impl<T, U> Bootstraps<T, U> {
-    pub fn new() -> Self {
-        Self {
-            lft,
+impl NothingToDo {
+    pub fn append<V>(self, rht: V) -> Bootstraps<NothingToDo, V> {
+        Bootstraps {
+            lft: self,
             rht,
         }
     }
+}
 
-    pub fn append<V>(self, rht: V) -> Self {
-        Self {
+impl<T, U> Bootstraps<T, U> {
+    pub fn new() -> NothingToDo {
+        NothingToDo
+    }
+
+    pub fn append<V>(self, rht: V) -> Bootstraps<Self, V> {
+        Bootstraps {
             lft: self,
             rht,
         }
@@ -60,8 +67,8 @@ where
     }
 
     fn into_token_stream(self) -> impl ToTokens {
-        let lft = self.lft;
-        let rht = self.rht;
+        let lft = self.lft.into_token_stream();
+        let rht = self.rht.into_token_stream();
         quote! {
             #lft
             #rht
@@ -87,8 +94,8 @@ where
     }
 
     fn into_token_stream(self) -> impl ToTokens {
-        let lft = self.lft;
-        let rht = self.rht;
+        let lft = self.lft.into_token_stream();
+        let rht = self.rht.into_token_stream();
         quote! {
             #lft
             #rht

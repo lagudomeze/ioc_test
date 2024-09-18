@@ -9,3 +9,7 @@ repository.workspace = true
 
 [dependencies]
 bootstrap = { path = "../bootstrap" }
+
+
+[package.metadata]
+bootstrap = "Print"

@@ -1,4 +1,13 @@
-use bootstrap::{quote, Bootstrap, CompileBootstrap, ItemStructExt, RuntimeBootstrap, SynPath, ToTokens, TokenStream, TokenStreamExt, Visit};
+use bootstrap::{
+    quote,
+    Bootstrap,
+    CompileBootstrap, ItemStructExt,
+    RuntimeBootstrap,
+    SynPath,
+    ToTokens,
+    TokenStream,
+    Visit,
+};
 
 pub struct Print;
 
@@ -21,12 +30,12 @@ impl CompileBootstrap for CompilePrintCollector {
     }
 
     fn into_token_stream(self) -> impl ToTokens {
-        let types = self.0;
+        let types = self.0.as_slice();
 
         quote! {
             pub fn print() {
                 use std::any::type_name;
-                #(println!("{}", type_name::<#types>());)
+                #(println!("{}", type_name::<#types>());)*
             }
         }
     }
@@ -48,7 +57,7 @@ impl RuntimeBootstrap for RuntimePrintExecutor {
     fn into_token_stream(self) -> impl ToTokens {
         let tts = self.0;
         quote! {
-            #(#tts)
+            #(#tts)*
         }
     }
 }
