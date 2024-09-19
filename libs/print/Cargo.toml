@@ -8,8 +8,4 @@ authors.workspace = true
 repository.workspace = true
 
 [dependencies]
-bootstrap = { path = "../bootstrap" }
-
-
-[package.metadata]
-bootstrap = "Print"
+boot_core = { path = "../../../ioc/libs/boot_core"}

@@ -1,5 +1,5 @@
 [package]
-name = "booystrap_macro"
+name = "print_build"
 version.workspace = true
 rust-version.workspace = true
 edition.workspace = true
@@ -7,10 +7,8 @@ license.workspace = true
 authors.workspace = true
 repository.workspace = true
 
-
-[lib]
-proc-macro = true
-
 [dependencies]
-bootstrap = { path = "../bootstrap" }
-syn = { version = "1" }
+boot_build = { path = "../../../ioc/libs/boot_build" }
+
+[package.metadata]
+bootstrap = "PrintBootstrap"
