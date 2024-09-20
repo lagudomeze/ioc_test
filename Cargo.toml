@@ -12,3 +12,9 @@ edition = "2021"
 license = "MIT OR Apache-2.0"
 authors = ["ybiao"]
 repository = "https://github.com/lagudomeze/ioc"
+
+[workspace.dependencies]
+boot_core = { path = "../ioc/libs/boot_core" }
+visit = { path = "../ioc/utils/visit" }
+proc-macro2 = "1"
+quote = "1"

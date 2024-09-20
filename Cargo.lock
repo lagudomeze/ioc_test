@@ -17,14 +17,28 @@ name = "boot_core"
 version = "0.1.1"
 
 [[package]]
+name = "bootstrap"
+version = "0.0.1"
+
+[[package]]
+name = "prepare"
+version = "0.0.1"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "visit",
+]
+
+[[package]]
 name = "print"
 version = "0.0.1"
 dependencies = [
  "boot_core",
+ "print_macro",
 ]
 
 [[package]]
-name = "print_build"
+name = "print_macro"
 version = "0.0.1"
 dependencies = [
  "boot_build",

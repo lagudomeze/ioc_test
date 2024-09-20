@@ -74,6 +74,14 @@ name = "print"
 version = "0.0.1"
 dependencies = [
  "boot_core",
+ "print_macro",
+]
+
+[[package]]
+name = "print_macro"
+version = "0.0.1"
+dependencies = [
+ "boot_build",
 ]
 
 [[package]]

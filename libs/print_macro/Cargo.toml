@@ -1,5 +1,5 @@
 [package]
-name = "print"
+name = "print_macro"
 version.workspace = true
 rust-version.workspace = true
 edition.workspace = true
@@ -8,5 +8,7 @@ authors.workspace = true
 repository.workspace = true
 
 [dependencies]
-boot_core = { path = "../../../ioc/libs/boot_core" }
-print_macro = { path = "../print_macro" }
+boot_build = { path = "../../../ioc/libs/boot_build" }
+
+[package.metadata]
+prebuild = "PrintBootstrap"

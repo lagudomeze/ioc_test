@@ -8,4 +8,4 @@ impl Bootstrap for Print {
     }
 }
 
-
+pub use print_macro::*;

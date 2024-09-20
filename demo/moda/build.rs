@@ -3,6 +3,15 @@ use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use std::{env, fs};
 
+//prebuilds
+// prebuilds!();
+// lib.rs  inlude!(xxxx);
+//
+// main.rs
+// let ctx = bootstrap!();
+// ctx.run()?;
+//bootstrap
+
 fn main() {
     let mut manifest: PathBuf = env::var_os("CARGO_MANIFEST_DIR")
         .expect("CARGO_MANIFEST_DIR not set")
