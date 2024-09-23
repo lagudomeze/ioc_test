@@ -18,13 +18,13 @@ impl<'a> Prebuilds<'a> {
 
 impl<'a> Visit for Prebuilds<'a> {
     fn item_struct(&mut self, i: &ItemStructExt<'_>) {
-        for visit in self.visits {
+        for visit in self.visits.iter_mut() {
             visit.item_struct(i)
         }
     }
 
     fn item_impl(&mut self, i: &ItemImplExt<'_>) {
-        for visit in self.visits {
+        for visit in self.visits.iter_mut() {
             visit.item_impl(i)
         }
     }

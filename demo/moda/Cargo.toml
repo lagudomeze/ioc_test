@@ -4,8 +4,10 @@ version = "0.0.0"
 edition = "2021"
 
 [dependencies]
-
-[build-dependencies]
-cargo_metadata = "0.18.1"
+modb = { path = "../modb" }
+sss = { path = "../modc", package = "modc" }
+bootstrap = { path = "../../libs/bootstrap" }
 print = { path = "../../libs/print" }
-boot_build = { path = "../../../ioc/libs/boot_build" }
+
+[package.metadata.bootstrap_items]
+print = "print"

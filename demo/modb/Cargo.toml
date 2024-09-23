@@ -1,5 +1,10 @@
 [package]
 name = "modb"
 version = "0.0.0"
+edition = "2021"
 
 [dependencies]
+modc = { path = "../modc" }
+
+[package.metadata.bootstrap_items]
+print = "print"

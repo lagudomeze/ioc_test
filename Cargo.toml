@@ -16,5 +16,22 @@ repository = "https://github.com/lagudomeze/ioc"
 [workspace.dependencies]
 boot_core = { path = "../ioc/libs/boot_core" }
 visit = { path = "../ioc/utils/visit" }
+
+bootstrap = { path = "libs/bootstrap"}
+bootstrap_macro = { path = "libs/bootstrap_macro"}
+
+cargo_metadata = "0.18"
 proc-macro2 = "1"
 quote = "1"
+serde_json = "1"
+
+[workspace.dependencies.syn]
+version = "2"
+features = [
+    "extra-traits",
+    "derive",
+    "parsing",
+    "printing",
+    "clone-impls",
+    "proc-macro",
+]

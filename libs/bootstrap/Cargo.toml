@@ -8,3 +8,4 @@ authors.workspace = true
 repository.workspace = true
 
 [dependencies]
+bootstrap_macro = { workspace = true }

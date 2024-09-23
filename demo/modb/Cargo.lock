@@ -5,3 +5,10 @@ version = 3
 [[package]]
 name = "modb"
 version = "0.0.0"
+dependencies = [
+ "modc",
+]
+
+[[package]]
+name = "modc"
+version = "0.0.0"
