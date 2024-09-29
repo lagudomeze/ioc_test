@@ -11,5 +11,5 @@ repository.workspace = true
 bootstrap = { path = "../bootstrap" }
 print_macro = { path = "../print_macro" }
 
-[package.metadata]
-bootstrap = "print"
+[package.metadata.prebuilds]
+name = "print"

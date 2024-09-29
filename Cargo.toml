@@ -19,6 +19,8 @@ visit = { path = "../ioc/utils/visit" }
 
 bootstrap = { path = "libs/bootstrap"}
 bootstrap_macro = { path = "libs/bootstrap_macro"}
+prebuilds = { path = "libs/prebuilds" }
+prebuilds_macro = { path = "libs/prebuilds_macro" }
 
 cargo_metadata = "0.18"
 proc-macro2 = "1"

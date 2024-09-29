@@ -1,8 +1,5 @@
 mod utils;
 
-use quote::ToTokens;
-use visit::Visit;
-
 pub trait PrebuildInCrate {
     fn new() -> Self;
 
@@ -12,6 +9,13 @@ pub trait PrebuildInCrate {
 }
 
 pub use utils::*;
+
+pub use prebuilds_macro::*;
+
+pub use visit::{Visit, scan};
+
+pub use quote::{ToTokens, TokenStreamExt};
+pub use proc_macro2::TokenStream as TT;
 
 #[cfg(test)]
 mod tests {
