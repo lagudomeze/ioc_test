@@ -62,7 +62,7 @@ fn get_dependencies_metadata(metadata: &Metadata) -> HashMap<&str, &Package> {
 
 fn process_bootstrap_items<'a>(package: &'a Package,
                                dependency_name: &'a str,
-                               item_map: &'a mut HashMap<&'a str, Vec<SynPath>>,
+                               item_map: &mut HashMap<&'a str, Vec<SynPath>>,
 ) {
     if let Some(items) = package.metadata.get("bootstrap_items") {
         let package_name = dependency_name;
