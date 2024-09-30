@@ -65,6 +65,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "78ca9ab1a0babb1e7d5695e3530886289c18cf2f87ec19a575a0abdce112e3a3"
 
 [[package]]
+name = "prebuilds"
+version = "0.0.1"
+dependencies = [
+ "prebuilds_macro",
+ "prettyplease",
+ "proc-macro2",
+ "quote",
+ "syn",
+ "visit",
+]
+
+[[package]]
 name = "prebuilds_macro"
 version = "0.0.1"
 dependencies = [
@@ -76,21 +88,22 @@ dependencies = [
 ]
 
 [[package]]
-name = "prepare"
-version = "0.0.1"
+name = "prettyplease"
+version = "0.2.22"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "479cf940fbbb3426c32c5d5176f62ad57549a0bb84773423ba8be9d089f5faba"
 dependencies = [
- "prebuilds_macro",
  "proc-macro2",
- "quote",
- "visit",
+ "syn",
 ]
 
 [[package]]
 name = "print"
 version = "0.0.1"
 dependencies = [
- "bootstrap",
+ "prebuilds",
  "print_macro",
+ "proc-macro2",
 ]
 
 [[package]]

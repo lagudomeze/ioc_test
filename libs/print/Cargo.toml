@@ -8,8 +8,9 @@ authors.workspace = true
 repository.workspace = true
 
 [dependencies]
-bootstrap = { path = "../bootstrap" }
+prebuilds = { path = "../prebuilds" }
 print_macro = { path = "../print_macro" }
+proc-macro2 = "1.0.86"
 
 [package.metadata.prebuilds]
-name = "print"
+name = "PrintXxxx"

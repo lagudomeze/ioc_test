@@ -79,6 +79,8 @@ name = "modb"
 version = "0.0.0"
 dependencies = [
  "modc",
+ "prebuilds",
+ "print",
 ]
 
 [[package]]
@@ -86,11 +88,45 @@ name = "modc"
 version = "0.0.0"
 
 [[package]]
+name = "prebuilds"
+version = "0.0.1"
+dependencies = [
+ "prebuilds_macro",
+ "prettyplease",
+ "proc-macro2",
+ "quote",
+ "syn",
+ "visit",
+]
+
+[[package]]
+name = "prebuilds_macro"
+version = "0.0.1"
+dependencies = [
+ "cargo_metadata",
+ "proc-macro2",
+ "quote",
+ "serde_json",
+ "syn",
+]
+
+[[package]]
+name = "prettyplease"
+version = "0.2.22"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "479cf940fbbb3426c32c5d5176f62ad57549a0bb84773423ba8be9d089f5faba"
+dependencies = [
+ "proc-macro2",
+ "syn",
+]
+
+[[package]]
 name = "print"
 version = "0.0.1"
 dependencies = [
- "bootstrap",
+ "prebuilds",
  "print_macro",
+ "proc-macro2",
 ]
 
 [[package]]
@@ -205,3 +241,11 @@ name = "unicode-ident"
 version = "1.0.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e91b56cd4cadaeb79bbf1a5645f6b4f8dc5bde8834ad5894a8db35fda9efa1fe"
+
+[[package]]
+name = "visit"
+version = "0.1.1"
+dependencies = [
+ "quote",
+ "syn",
+]

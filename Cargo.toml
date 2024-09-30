@@ -22,10 +22,13 @@ bootstrap_macro = { path = "libs/bootstrap_macro"}
 prebuilds = { path = "libs/prebuilds" }
 prebuilds_macro = { path = "libs/prebuilds_macro" }
 
+print = { path = "libs/print" }
+
 cargo_metadata = "0.18"
 proc-macro2 = "1"
 quote = "1"
 serde_json = "1"
+prettyplease = "0.2"
 
 [workspace.dependencies.syn]
 version = "2"

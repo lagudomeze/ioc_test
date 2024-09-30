@@ -1,31 +1,92 @@
 use crate::PrebuildInCrate;
-use visit::{ItemImplExt, ItemStructExt, Visit};
+use prettyplease::unparse;
+use quote::{quote, ToTokens};
+use std::{
+    fs::write,
+    path::Path,
+};
+use proc_macro2::TokenStream;
+use syn::{parse_quote, File};
+use visit::{scan, ItemImplExt, ItemStructExt, Visit};
 
-pub struct Prebuilds<'a> {
-    visits: Vec<&'a mut dyn Visit>,
+pub fn new_prebuilds() -> Prebuilds<(), ()> {
+    Prebuilds((), ())
 }
 
-impl<'a> Prebuilds<'a> {
-    pub fn new() -> Self {
-        Self { visits: vec![] }
-    }
+pub struct Prebuilds<T, U>(T, U);
 
-    pub fn push(&mut self, prebuild_in_crate: &'a mut impl PrebuildInCrate) -> &mut Self {
-        self.visits.push(prebuild_in_crate.visit());
-        self
+impl<T, U> Prebuilds<T, U> {
+
+    pub fn push<V>(self, rht: V) -> Prebuilds<Self, V> {
+        Prebuilds(self, rht)
     }
 }
 
-impl<'a> Visit for Prebuilds<'a> {
+impl<T, U> Visit for Prebuilds<T, U>
+where
+    T: Visit,
+    U: Visit,
+{
     fn item_struct(&mut self, i: &ItemStructExt<'_>) {
-        for visit in self.visits.iter_mut() {
-            visit.item_struct(i)
-        }
+        self.0.item_struct(i);
+        self.1.item_struct(i);
     }
 
     fn item_impl(&mut self, i: &ItemImplExt<'_>) {
-        for visit in self.visits.iter_mut() {
-            visit.item_impl(i)
-        }
+        self.0.item_impl(i);
+        self.1.item_impl(i);
+    }
+}
+
+impl PrebuildInCrate for () {
+    fn new() -> Self {
+        ()
+    }
+
+    fn into_token_stream(self) -> impl ToTokens {
+        quote! {}
+    }
+}
+
+struct Nothing;
+
+impl ToTokens for Nothing {
+    fn to_tokens(&self, _: &mut TokenStream) {
+
+    }
+}
+
+impl PrebuildInCrate for Prebuilds<(), ()> {
+    fn new() -> Self {
+        Prebuilds((), ())
+    }
+
+    fn into_token_stream(self) -> impl ToTokens {
+        Nothing
+    }
+}
+
+impl<T, U> Prebuilds<T, U>
+where
+    T: PrebuildInCrate,
+    U: PrebuildInCrate,
+{
+    fn into_file(self) -> File {
+        let lft = self.0.into_token_stream();
+        let rht = self.1.into_token_stream();
+
+        let file = parse_quote! {
+            #lft
+            #rht
+        };
+
+        file
+    }
+
+    pub fn generate(mut self, file: impl AsRef<Path>, target: impl AsRef<Path>) {
+        scan(&mut self, file.as_ref());
+        let file = self.into_file();
+        write(target, unparse(&file))
+            .expect("Unable to write file");
     }
 }

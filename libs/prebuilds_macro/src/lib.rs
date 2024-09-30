@@ -20,56 +20,36 @@ pub fn prebuilds(_: TokenStream) -> TokenStream {
 
     let mut prebuilds_init = TT::new();
 
-    let mut prebuilds_push = TT::new();
-
     let mut prebuilds_meta = TT::new();
 
-    let mut prebuilds_code = TT::new();
-
-    for PrebuildItem { name, item: path, meta} in modules.iter() {
+    for PrebuildItem { item: path, meta } in modules.iter() {
         let tt = quote! {
-            let mut #name = #path::new();
+            let mut __prebuilds__ = __prebuilds__.push(#path::new());
         };
         tt.to_tokens(&mut prebuilds_init);
 
         let tt = quote! {
-            __prebuilds__.push(&mut #name);
-        };
-        tt.to_tokens(&mut prebuilds_push);
-
-        let tt = quote! {
-            println!("cargo::cargo::metadata=bootstrap_items={}", #meta);
+            println!("cargo::metadata=bootstrap_items={}", #meta);
         };
         tt.to_tokens(&mut prebuilds_meta);
-
-        let tt = quote! {
-            {
-                let tt = #name.into_token_stream();
-                tt.to_tokens(&mut __result__);
-            }
-        };
-        tt.to_tokens(&mut prebuilds_code);
     }
 
     let tt = quote! {
         {
-            use std::{path::Path, fs}
+            use std::{path::{PathBuf, Path}, fs, env::var_os};
             use prebuilds::*;
+
+            let mut __prebuilds__ = new_prebuilds();
 
             #prebuilds_init;
 
-            let mut __prebuilds__ = Prebuilds::new();
+            let mut target : PathBuf = std::env::var_os("OUT_DIR")
+                .expect("No OUT_DIR env")
+                .into();
 
-            #prebuilds_push;
+            target.push("bootstrap.rs");
 
-            let path = Path::new("./src/lib.rs");
-
-            scan(&mut __prebuilds__, &path);
-
-            let mut __result__ = TT::new();
-
-            #prebuilds_code;
-
+            __prebuilds__.generate("./src/lib.rs", &target);
 
             #prebuilds_meta
         }
@@ -79,7 +59,6 @@ pub fn prebuilds(_: TokenStream) -> TokenStream {
 
 #[derive(Debug)]
 struct PrebuildItem {
-    name: Ident,
     item: SynPath,
     meta: LitStr,
 }
@@ -118,11 +97,10 @@ fn process_prebuilds_items<'a>(package: &'a Package, dependency_name: &'a str, i
                 .flatten() {
                 let meta = LitStr::new(name, Span::call_site());
                 let name = Ident::new(name, Span::call_site());
-
-                eprintln!("find prebuilds: {module_name}::{item}");
                 let item: SynPath = parse_quote!(#module_name::#name);
+
+                eprintln!("prebuilds: find {module_name}::{name}");
                 items.push(PrebuildItem {
-                    name,
                     item,
                     meta,
                 });

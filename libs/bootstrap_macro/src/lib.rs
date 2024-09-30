@@ -22,6 +22,7 @@ pub fn bootstrap(_: TokenStream) -> TokenStream {
     for boot in collect_bootstrap_modules() {
         let crate_name = boot.path;
         let items = boot.items;
+        eprintln!("{crate_name:?}");
         let part = quote! {
             #crate_name::bootstrap! {
                 #(#items,)*
@@ -67,18 +68,19 @@ fn process_bootstrap_items<'a>(package: &'a Package,
     if let Some(items) = package.metadata.get("bootstrap_items") {
         let package_name = dependency_name;
         let module_name = Ident::new(package_name, Span::call_site());
+        eprintln!("bootstrap: find module: {module_name} with bootstrap_items");
 
         if let Some(map) = items.as_object() {
             for (key, value) in map.iter() {
                 let item = value.as_str().expect("invalid bootstrap item value");
                 let item = Ident::new(item, Span::call_site());
-                eprintln!("module: {key} {module_name}::{item}");
+                eprintln!("bootstrap: find module: {key} {module_name}::{item}");
 
                 let item_path: SynPath = parse_quote!(#module_name::#item);
                 item_map.entry(key.as_str()).or_insert_with(Vec::new).push(item_path);
             }
         } else {
-            eprintln!("module: {package_name} has no bootstrap items");
+            eprintln!("bootstrap: module {package_name} has no bootstrap items");
         }
     }
 }
@@ -86,10 +88,8 @@ fn process_bootstrap_items<'a>(package: &'a Package,
 fn process_bootstrap_modules<'a>(package: &'a Package,
                                  dependency_name: &'a str,
                                  bootstrap_map: &mut HashMap<&'a str, &'a str>) {
-    if let Some(value) = package.metadata.get("bootstrap") {
-        if let Some(name) = value.as_str() {
-            bootstrap_map.insert(name, dependency_name);
-        }
+    if let Some(_) = package.metadata.get("prebuilds") {
+        bootstrap_map.insert(&package.name, dependency_name);
     }
 }
 

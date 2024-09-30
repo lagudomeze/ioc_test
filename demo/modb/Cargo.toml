@@ -6,5 +6,10 @@ edition = "2021"
 [dependencies]
 modc = { path = "../modc" }
 
+
+[build-dependencies]
+prebuilds = { path = "../../libs/prebuilds" }
+print = { path = "../../libs/print" }
+
 [package.metadata.bootstrap_items]
 print = "print"
